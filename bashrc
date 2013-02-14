@@ -23,9 +23,6 @@ if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
 
-if [ -f ~/.mybashrc ]; then
-    source ~/.mybashrc
-fi
 
 set dunique      # Remove duplicate entries in directory stack
 # set fignore=(\~) # files ending in ~ will be ignored by completion
@@ -56,3 +53,7 @@ cls ()
 shopt -s cdspell
 
 source ~/bin/cdargs-bash.sh
+
+if [ -f ~/.mybashrc ]; then
+    source ~/.mybashrc
+fi
