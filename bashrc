@@ -55,4 +55,6 @@ cls ()
 
 shopt -s cdspell
 
-source ~/bin/cdargs-bash.sh
+if [ -f ~/bin/cdargs-bash.sh ]; then
+    source ~/bin/cdargs-bash.sh
+fi
