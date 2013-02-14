@@ -1,0 +1,23 @@
+#change the hardstatus settings to give an window list at the bottom of the
+##screen, with the time and date and with the current window highlighted
+#hardstatus alwayslastline
+#hardstatus string "%t"
+#hardstatus alwayslastline "%H"
+#hardstatus string '%{= mK}%-Lw%{= KW}%50>%n%f* %t%{= mK}%+Lw%< %{= kG}%-=%D %d %M %Y %c:%s%{-}'
+#hardstatus string '%H'
+#hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c %{g}]'
+#caption always '%{= dg} %H %{G}| %{B}%l %{G}|%=%?%{d}%-w%?%{r}(%{d}%n %t%? {%u} %?%{r})%{d}%?%+w%?%=%{G}| %{B}%M %d %c:%s '
+#hardstatus string "%h"
+#caption always "%{= kB}%-Lw%{=s kB}%50>%n%f* %t %{-}%+Lw%<"
+#
+caption always "%{+b kK}%H %{gk}%C%a %{wk}[ %?%{yk}%-Lw%?%{wb}%n*%f %t%?(%u)%?%?%{yk}%+Lw%?%{wk} ]"
+startup_message off
+#
+#
+#screen -X at 0 stuff $'screen -d -m -S myhssdev1\n'
+#screen -X at 0 stuff $'screen -x myhssdev1\n'
+# make mouse work in vim with screen.
+term linux
+# termcapinfo xterm-color|rxvt ti@:te@
+# termcapinfo linux|xterm|rxvt|xterm-color ti@:te@:XT
+termcapinfo linux ti@:te@:XT
