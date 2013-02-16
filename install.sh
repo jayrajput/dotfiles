@@ -8,7 +8,7 @@
 
 dir=~/git/config                        # config directory
 olddir=~/archive/oldConfig              # old config backup directory
-files="bashrc vimrc tmux.conf screenrc" # list of files to symlink in homedir
+files="bashrc vimrc tmux.conf screenrc vpnc.conf" # list of files to symlink in homedir
 
 # create dotfiles_old in homedir
 echo "Creating $olddir for backup of any existing dotfiles in ~"

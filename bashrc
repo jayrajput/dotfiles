@@ -4,7 +4,8 @@ case "$-" in
 *)   return ;;
 esac
 
-function add_to_path () {
+function add_to_path () 
+{
    add_me=$1
    # in bash v3, we could say this -> if [[ ! ":$PATH:" =~ ":$d:" ]] ; then
    if [ $(echo ":$PATH:" | grep -c ":$add_me:") -eq 0 ] ; then
@@ -17,12 +18,13 @@ for d in /usr/X11R6/bin $HOME/bin ; do
    add_to_path $d
 done
 
+# show the last dir in the pwd inside square brackets followed by dollar sign.
+# \W = last dir in the pwd.
 export PS1="[\W]\$"
 
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
-
 
 set dunique      # Remove duplicate entries in directory stack
 # set fignore=(\~) # files ending in ~ will be ignored by completion
@@ -50,6 +52,8 @@ cls ()
     echo "[;H[2J"
 }
 
+# Automatically correct spelling mistake in the cd command.
+# see http://linux.101hacks.com/cd-command/shopt-s-cdspell/
 shopt -s cdspell
 
 if [ -f ~/.mybashrc ]; then
