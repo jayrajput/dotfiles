@@ -14,6 +14,7 @@ set scrolloff=3 " for Control-d and Control-u
 set ruler       " to see the column numbers
 set autoindent
 set smartindent
+set nu
 map <F12> :cn
 map <F11> :cp
 map  2j
@@ -90,6 +91,16 @@ let g:CommandTCancelMap='<C-x>'
 " setting backspace also make C-w and Control-u works for deleting words.
 set backspace=indent,eol,start
 set backspace=2
+
+" For Yank-ring
+let g:yankring_replace_n_pkey = '<m-p>'
+let g:yankring_replace_n_nkey = '<m-n>'
+
+" for tab highlighting.
+hi TabLineFill ctermfg=LightGray ctermbg=Black
+hi TabLine     ctermfg=LightBlue  ctermbg=Black
+hi TabLineSel  ctermfg=LightRed   ctermbg=Black
+hi Title       ctermfg=LightBlue  ctermbg=Black
 
 " Make it the last as I have realized that sometimes it does not work.
 set expandtab
