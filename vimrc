@@ -1,3 +1,22 @@
+" See http://learnvimscriptthehardway.stevelosh.com
+let mapleader      = "\\"
+let maplocalleader = "_"
+inoremap jk <esc>
+inoremap hl <esc>
+" <nop> is no operation
+inoremap <Down>  <nop> 
+inoremap <Up>    <nop> 
+inoremap <Left>  <nop> 
+inoremap <Right> <nop> 
+nnoremap <Down>  <nop> 
+nnoremap <Up>    <nop> 
+nnoremap <Left>  <nop> 
+nnoremap <Right> <nop> 
+" mapping for editing and sourcing vimrc
+" ev = edit vimrc and sv = source vimrc
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
 filetype on
 set ignorecase
 set incsearch
@@ -64,7 +83,7 @@ function! Cd()
     edit `=mydir`
 endfunction
 " Alias to my function so you do not need to type call everytime.
-command Cd call Cd()
+" command Cd call Cd()
 
 " See http://vim.wikia.com/wiki/Managing_set_options
 nnoremap <F9>:call ToggleMouse()<CR>
