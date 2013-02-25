@@ -22,10 +22,6 @@ done
 # \W = last dir in the pwd.
 export PS1="[\W]\$"
 
-if [ -f ~/.bash_aliases ]; then
-    source ~/.bash_aliases
-fi
-
 set dunique      # Remove duplicate entries in directory stack
 # set fignore=(\~) # files ending in ~ will be ignored by completion
 
@@ -56,9 +52,10 @@ cls ()
 # see http://linux.101hacks.com/cd-command/shopt-s-cdspell/
 shopt -s cdspell
 
-if [ -f ~/.mybashrc ]; then
-    source ~/.mybashrc
-fi
-if [ -f ~/bin/cdargs-bash.sh ]; then
-    source ~/bin/cdargs-bash.sh
+# source any system specific script
+bashDir=~/.bash
+if [ -e $bashDir ]; then
+    for file in $(ls $bashDir); do
+        source $bashDir/$file
+    done
 fi
