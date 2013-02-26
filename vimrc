@@ -31,8 +31,13 @@ set laststatus=2
 set scroll=3    " for Control-d and Control-u
 set scrolloff=3 " for Control-d and Control-u
 set ruler       " to see the column numbers
-set autoindent
-set smartindent
+" cindent overrides smartindent and autoindent.
+" I am using cindent also in PHP.
+set cindent
+" (1s indent one sw from the line with unclosed parentheses.
+" m1  line up a line with a closing parentheses with first character of the
+"     line with matching opening parentheses.
+set cinoptions=(1s,m1
 set nu
 map <F12> :cn
 map <F11> :cp
@@ -123,3 +128,5 @@ hi Title       ctermfg=LightBlue  ctermbg=Black
 
 " Make it the last as I have realized that sometimes it does not work.
 set expandtab
+echo "sourced vimrc"
+echo "sourced vimrc"
