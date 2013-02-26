@@ -100,8 +100,8 @@ function! ToggleMouse()
 endfunction
 
 " CommandT related setting.
-nnoremap <silent> t :CommandT<CR>
-nnoremap <silent> b :CommandTBuffer<CR>
+nnoremap <leader>t :CommandT<CR>
+nnoremap <leader>b :CommandTBuffer<CR>
 let g:CommandTCancelMap='<C-x>'
 
 " Make backspace work in insert mode
