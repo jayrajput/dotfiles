@@ -128,5 +128,3 @@ hi Title       ctermfg=LightBlue  ctermbg=Black
 
 " Make it the last as I have realized that sometimes it does not work.
 set expandtab
-echo "sourced vimrc"
-echo "sourced vimrc"

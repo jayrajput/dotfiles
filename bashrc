@@ -11,10 +11,13 @@ function add_to_path ()
    if [ $(echo ":$PATH:" | grep -c ":$add_me:") -eq 0 ] ; then
       PATH="$PATH:$add_me"
    fi
+   if [ $(echo ":$PYTHONPATH:" | grep -c ":$add_me:") -eq 0 ] ; then
+      export PYTHONPATH=$PYTHONPATH:$add_me
+   fi
 }
 
 # add these directories if they're not already in the path
-for d in /usr/X11R6/bin $HOME/bin ; do
+for d in /usr/X11R6/bin/ $HOME/bin ; do
    add_to_path $d
 done
 
@@ -59,3 +62,5 @@ if [ -e $bashDir ]; then
         source $bashDir/$file
     done
 fi
+
+export pySearchSelect=~/bin/pySearchSelect.py

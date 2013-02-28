@@ -27,3 +27,9 @@ for file in $files; do
     echo "Creating symlink to $file in home directory."
     ln -s $dir/$file ~/.$file
 done
+
+# Code make use of bash list consructs. See this URL for explanation of list
+# construct.  http://tldp.org/LDP/abs/html/list-cons.html
+viewSh=~/git/pySearchSelect/examples/views.sh
+bashDir=~/.bash
+[ ! -z $WORKENV ] && [ -e $viewSh ] && [ -e $bashDir ] && (ln -s $viewSh $bashDir/views.sh)
