@@ -33,3 +33,9 @@ done
 viewSh=~/git/pySearchSelect/examples/views.sh
 bashDir=~/.bash
 [ ! -z $WORKENV ] && [ -e $viewSh ] && [ -e $bashDir ] && (ln -s $viewSh $bashDir/views.sh)
+
+pySearchSelectGit=~/git/pySearchSelect
+if [ -e $pySearchSelectGit ] && [ -e ~/bin ]; then
+    ln -s $pySearchSelectGit/pss.py ~/bin/pss.py
+    ln -s $pySearchSelectGit/examples/marks ~/bin/marks
+fi

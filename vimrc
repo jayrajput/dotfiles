@@ -66,7 +66,7 @@ syntax on
 " to copy text out of vim use SHIFT with mouse.
 " See: http://stackoverflow.com/questions/4608161/copy-text-out-of-vim-with-set-mouse-a-enabled
 set ttymouse=xterm2
-set mouse=a 
+set mouse=n
 
 " http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
 nnoremap ,cd :lcd %:p:h<CR>:pwd<CR>
