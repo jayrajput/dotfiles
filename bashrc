@@ -4,29 +4,21 @@ case "$-" in
 *)   return ;;
 esac
 
-function add_to_path () 
+function addToPath () 
 {
    add_me=$1
    # in bash v3, we could say this -> if [[ ! ":$PATH:" =~ ":$d:" ]] ; then
    if [ $(echo ":$PATH:" | grep -c ":$add_me:") -eq 0 ] ; then
       PATH="$PATH:$add_me"
    fi
+}
+function addToPythonpath()
+{
+   add_me=$1
    if [ $(echo ":$PYTHONPATH:" | grep -c ":$add_me:") -eq 0 ] ; then
       export PYTHONPATH=$PYTHONPATH:$add_me
    fi
 }
-
-# add these directories if they're not already in the path
-for d in /usr/X11R6/bin/ $HOME/bin ; do
-   add_to_path $d
-done
-
-# show the last dir in the pwd inside square brackets followed by dollar sign.
-# \W = last dir in the pwd.
-export PS1="[\W]\$"
-
-set dunique      # Remove duplicate entries in directory stack
-# set fignore=(\~) # files ending in ~ will be ignored by completion
 
 # Putty Window Title Functions
 # In all of these, ^[ is really the "escape" character. You put it into
@@ -51,6 +43,13 @@ cls ()
     echo "[;H[2J"
 }
 
+# show the last dir in the pwd inside square brackets followed by dollar sign.
+# \W = last dir in the pwd.
+export PS1="[\W]\$"
+
+set dunique      # Remove duplicate entries in directory stack
+
+# set fignore=(\~) # files ending in ~ will be ignored by completion
 # Automatically correct spelling mistake in the cd command.
 # see http://linux.101hacks.com/cd-command/shopt-s-cdspell/
 shopt -s cdspell
