@@ -7,7 +7,7 @@ storeTargetLink ()
     targetLink[$1]="$2"
 }
 
-mygit=$HOME/git
+mygit=$HOME/git/mine
 mygitConfig=$mygit/config
 mygitPss=$mygit/pySearchSelect
 # link for files in config
@@ -23,10 +23,12 @@ storeTargetLink "$mygitPss/pss.py"            "$HOME/bin/pss.py"
 
 for target in ${!targetLink[*]}; do
     link=${targetLink[$target]}
-    if [ ! -e $link ]; then
+# rm $link
+    if [ ! -L $link ]; then
         ln -s $target $link
         echo "SUCCESS: $link created for $target"
     else
+	ls -l $link
         if [ -L $link ]; then
             echo "ERROR: $link already exists"
         else
