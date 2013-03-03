@@ -1,41 +1,36 @@
-#!/bin/bash
-###############################################################################
-# makesymlink.sh
-# See http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/ for more details.
-# This script creates symlinks from the home directory to any desired dotfiles
-# in ~/git/config
-###############################################################################
+# create symbolic links to the target used as keys in the associatve array
 
-dir=~/git/config                        # config directory
-olddir=~/archive/oldConfig              # old config backup directory
-files="bashrc vimrc tmux.conf screenrc vpnc.conf" # list of files to symlink in homedir
+declare -A targetLink
+# function does not do much but helps to indent the calls.
+storeTargetLink () 
+{
+    targetLink[$1]="$2"
+}
 
-# create dotfiles_old in homedir
-echo "Creating $olddir for backup of any existing dotfiles in ~"
-mkdir -p $olddir
-echo "...done"
+mygit=$HOME/git
+mygitConfig=$mygit/config
+mygitPss=$mygit/pySearchSelect
+# link for files in config
+storeTargetLink "$mygitConfig/bashrc"    "$HOME/.bashrc"
+storeTargetLink "$mygitConfig/vimrc"     "$HOME/.vimrc"
+storeTargetLink "$mygitConfig/screenrc"  "$HOME/.screenrc"
+storeTargetLink "$mygitConfig/tmux.conf" "$HOME/.tmux.conf"
+storeTargetLink "$mygitConfig/vpnc.conf" "$HOME/.vpnc.conf"
+# link for files in pss
+storeTargetLink "$mygitPss/examples/views.sh" "$HOME/.bash/views.sh"
+storeTargetLink "$mygitPss/examples/marks"    "$HOME/bin/marks"
+storeTargetLink "$mygitPss/pss.py"            "$HOME/bin/pss.py"
 
-# change to the dotfiles directory
-echo "Changing to the $dir directory"
-cd $dir
-echo "...done"
-
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks 
-for file in $files; do
-    echo "Moving any existing dotfiles from ~ to $olddir"
-    mv ~/.$file $olddir
-    echo "Creating symlink to $file in home directory."
-    ln -s $dir/$file ~/.$file
+for target in ${!targetLink[*]}; do
+    link=${targetLink[$target]}
+    if [ ! -e $link ]; then
+        ln -s $target $link
+        echo "SUCCESS: $link created for $target"
+    else
+        if [ -L $link ]; then
+            echo "ERROR: $link already exists"
+        else
+            echo "ERROR: $link is not a symbolic link"
+        fi
+    fi
 done
-
-# Code make use of bash list consructs. See this URL for explanation of list
-# construct.  http://tldp.org/LDP/abs/html/list-cons.html
-viewSh=~/git/pySearchSelect/examples/views.sh
-bashDir=~/.bash
-[ ! -z $WORKENV ] && [ -e $viewSh ] && [ -e $bashDir ] && (ln -s $viewSh $bashDir/views.sh)
-
-pySearchSelectGit=~/git/pySearchSelect
-if [ -e $pySearchSelectGit ] && [ -e ~/bin ]; then
-    ln -s $pySearchSelectGit/pss.py ~/bin/pss.py
-    ln -s $pySearchSelectGit/examples/marks ~/bin/marks
-fi
