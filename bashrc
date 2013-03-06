@@ -20,6 +20,11 @@ function addToPythonpath()
    fi
 }
 
+function mygitstatus()
+{
+    for i in $(ls); do cd $i; git status; cd -; done
+}
+
 # Putty Window Title Functions
 # In all of these, ^[ is really the "escape" character. You put it into
 # a file using vi, by typing control-V and then hitting the Escape key.
