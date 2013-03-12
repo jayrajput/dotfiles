@@ -95,6 +95,61 @@ function! SetupSync()
     au BufWritePost *.php,*.phtml,*.js :call SyncVob2Target()
 endfunction
 
+
+" Function Arguments:
+" searchPattern : search pattern to search for
+" replacePattern: replace pattern. Pattern with which search pattern is replaced.
+" stopLines     : stop lines. Line at which search is to stopped.
+" Function description:
+" Functions find all searchPattern and replace it with replacePattern +
+" reqTagNum with reqTagNum starting at 10 and incrementing by 10 with each new
+" search.
+function! UpdateReq(searchPattern, replacePattern, stopLines)
+python << PYEND
+import vim
+reqTagNum=10
+while True:
+    # Search for user provided searchPattern using vim inbuilt search function
+    # and store the return in a vim variable.
+    vim.command(
+        "let g:rowNum=search('%(searchPattern)s', '', %(stopLines)d)" %\
+        {"searchPattern": vim.eval("a:searchPattern"), "stopLines": int(vim.eval("a:stopLines"))}
+    )
+    # get the vim search return var into python environment.
+    row = int(vim.eval("g:rowNum"))
+    # search failed, then exit.
+    if row is 0:
+        print "Breaking out of the loop"
+        break
+
+    # find the current line and replace it with the replacePattern + reqTagNum
+    line = vim.current.buffer[row - 1] # 0 vs 1 based
+    vim.current.buffer[row - 1] = line.replace(
+        vim.eval("a:searchPattern"),
+        str(vim.eval("a:replacePattern")) + str(reqTagNum)
+    )
+    reqTagNum += 10
+PYEND
+endfunction
+
+" count : number of lines to process
+" e.g. 10 will process 10 lines starting from current line.
+function! AddSerialNumbers(count)
+python << PYEND
+# width of serial numbers for right justification.
+width = len(vim.eval("a:count")) 
+# find current row
+(currentRow, currentCol) = vim.current.window.cursor
+lineNumber=int(currentRow)
+
+for serialNumber in range(1, int(vim.eval("a:count")) + 1):
+    line = vim.current.buffer[lineNumber - 1] # 0 vs 1 based
+    vim.current.buffer[lineNumber - 1 ] = str(serialNumber).rjust(width) + ". " + line
+    lineNumber += 1
+    
+PYEND
+endfunction
+
 function! s:Underline(chars)
   let chars = empty(a:chars) ? '-' : a:chars
   let nr_columns = virtcol('$') - 1
