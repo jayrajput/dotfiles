@@ -53,8 +53,6 @@ map  2k
 
 function! SyncVob2Target()
 python << PYEND
-import vim
-
 vob2target={
     "/home/jay/dump" : "/var/TKLC/appworks/dump",
     "/vobs/software/awpss7/diameter/TKLCdpi/gui/modules/diameter/" : "/var/TKLC/appworks/modules/diameter",
@@ -96,60 +94,6 @@ function! SetupSync()
 endfunction
 
 
-" Function Arguments:
-" searchPattern : search pattern to search for
-" replacePattern: replace pattern. Pattern with which search pattern is replaced.
-" stopLines     : stop lines. Line at which search is to stopped.
-" Function description:
-" Functions find all searchPattern and replace it with replacePattern +
-" reqTagNum with reqTagNum starting at 10 and incrementing by 10 with each new
-" search.
-function! UpdateReq(searchPattern, replacePattern, stopLines)
-python << PYEND
-import vim
-reqTagNum=10
-while True:
-    # Search for user provided searchPattern using vim inbuilt search function
-    # and store the return in a vim variable.
-    vim.command(
-        "let g:rowNum=search('%(searchPattern)s', '', %(stopLines)d)" %\
-        {"searchPattern": vim.eval("a:searchPattern"), "stopLines": int(vim.eval("a:stopLines"))}
-    )
-    # get the vim search return var into python environment.
-    row = int(vim.eval("g:rowNum"))
-    # search failed, then exit.
-    if row is 0:
-        print "Breaking out of the loop"
-        break
-
-    # find the current line and replace it with the replacePattern + reqTagNum
-    line = vim.current.buffer[row - 1] # 0 vs 1 based
-    vim.current.buffer[row - 1] = line.replace(
-        vim.eval("a:searchPattern"),
-        str(vim.eval("a:replacePattern")) + str(reqTagNum)
-    )
-    reqTagNum += 10
-PYEND
-endfunction
-
-" count : number of lines to process
-" e.g. 10 will process 10 lines starting from current line.
-function! AddSerialNumbers(count)
-python << PYEND
-# width of serial numbers for right justification.
-width = len(vim.eval("a:count")) 
-# find current row
-(currentRow, currentCol) = vim.current.window.cursor
-lineNumber=int(currentRow)
-
-for serialNumber in range(1, int(vim.eval("a:count")) + 1):
-    line = vim.current.buffer[lineNumber - 1] # 0 vs 1 based
-    vim.current.buffer[lineNumber - 1 ] = str(serialNumber).rjust(width) + ". " + line
-    lineNumber += 1
-    
-PYEND
-endfunction
-
 function! s:Underline(chars)
   let chars = empty(a:chars) ? '-' : a:chars
   let nr_columns = virtcol('$') - 1
@@ -175,6 +119,34 @@ set mouse=n
 " http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
 nnoremap ,cd :lcd %:p:h<CR>:pwd<CR>
 
+
+" CommandT related setting.
+nnoremap <leader>t :CommandT<CR>
+nnoremap <leader>b :CommandTBuffer<CR>
+let g:CommandTCancelMap='<C-x>'
+
+" Make backspace work in insert mode
+" see
+" http://vim.wikia.com/wiki/Erasing_previously_entered_characters_in_insert_mode
+" setting backspace also make C-w and Control-u works for deleting words.
+set backspace=indent,eol,start
+set backspace=2
+
+" For Yank-ring
+let g:yankring_replace_n_pkey = '<m-p>'
+let g:yankring_replace_n_nkey = '<m-n>'
+
+" for tab highlighting.
+hi TabLineFill ctermfg=LightGray ctermbg=Black
+hi TabLine     ctermfg=LightBlue  ctermbg=Black
+hi TabLineSel  ctermfg=LightRed   ctermbg=Black
+hi Title       ctermfg=LightBlue  ctermbg=Black
+
+" Make it the last as I have realized that sometimes it does not work.
+set expandtab
+
+" Functions
+
 function! MyVerbose()
     set spelllang=en_us
     set spell!
@@ -182,6 +154,11 @@ function! MyVerbose()
     set lcs=tab:>-,trail:%,eol:$
     set list!
     set comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+endfunction
+
+function! MyCopy()
+    set nu!
+    set wrap!
 endfunction
 
 " See http://vim.wikia.com/wiki/Write_your_own_Vim_function
@@ -208,27 +185,89 @@ function! ToggleMouse()
   endif
 endfunction
 
-" CommandT related setting.
-nnoremap <leader>t :CommandT<CR>
-nnoremap <leader>b :CommandTBuffer<CR>
-let g:CommandTCancelMap='<C-x>'
+" Functions using PYTHON 
 
-" Make backspace work in insert mode
-" see
-" http://vim.wikia.com/wiki/Erasing_previously_entered_characters_in_insert_mode
-" setting backspace also make C-w and Control-u works for deleting words.
-set backspace=indent,eol,start
-set backspace=2
+if has('python')
+python << PYEND
+import vim
+PYEND
+endif
 
-" For Yank-ring
-let g:yankring_replace_n_pkey = '<m-p>'
-let g:yankring_replace_n_nkey = '<m-n>'
+" Function Arguments:
+" searchPattern : search pattern to search for
+" replacePattern: replace pattern. Pattern with which search pattern is replaced.
+" stopLines     : stop lines. Line at which search is to stopped.
+" Function description:
+" Functions find all searchPattern and replace it with replacePattern +
+" reqTagNum with reqTagNum starting at 10 and incrementing by 10 with each new
+" search.
+function! UpdateReq(searchPattern, replacePattern) range
+python << PYEND
+firstline = int(vim.eval("a:firstline"))
+stopLines = int(vim.eval("a:lastline"))
 
-" for tab highlighting.
-hi TabLineFill ctermfg=LightGray ctermbg=Black
-hi TabLine     ctermfg=LightBlue  ctermbg=Black
-hi TabLineSel  ctermfg=LightRed   ctermbg=Black
-hi Title       ctermfg=LightBlue  ctermbg=Black
+vim.command(":" + str(firstline - 1)) # jump to the first line.
+reqTagNum=10
+while True:
+    # Search for user provided searchPattern using vim inbuilt search function
+    # and store the return in a vim variable.
+    vim.command(
+        "let g:rowNum=search('%(searchPattern)s', '', %(stopLines)d)" %\
+        {"searchPattern": vim.eval("a:searchPattern"), "stopLines": stopLines }
+    )
+    # get the vim search return var into python environment.
+    row = int(vim.eval("g:rowNum"))
+    # search failed, then exit.
+    if row is 0:
+        print "Breaking out of the loop"
+        break
 
-" Make it the last as I have realized that sometimes it does not work.
-set expandtab
+    # find the current line and replace it with the replacePattern + reqTagNum
+    line = vim.current.buffer[row - 1] # 0 vs 1 based
+    vim.current.buffer[row - 1] = line.replace(
+        vim.eval("a:searchPattern"),
+        str(vim.eval("a:replacePattern")) + str(reqTagNum)
+    )
+    reqTagNum += 10
+PYEND
+endfunction
+
+
+function! AddSerialNumbers() range
+python << PYEND
+# for range function vim automatically creates argument firstline and
+# lastline.
+firstline = int(vim.eval("a:firstline"))
+lastline  = int(vim.eval("a:lastline"))
+width     = len(str(lastline - firstline)) # width for indenting the serial numbers.
+
+serialNumber = 1
+for lineNumber in range(firstline, lastline + 1):
+    line = vim.current.buffer[lineNumber - 1] # 0 vs 1 based
+    vim.current.buffer[lineNumber - 1 ] = str(serialNumber).rjust(width) + ". " + line
+    serialNumber += 1
+PYEND
+endfunction
+
+function! ToggleComments() range
+python << PYEND
+def isComment(input):
+    if input.find("#") is not -1:
+        return True
+    elif input.find("/") is not -1:
+        return True
+    else:
+        return False
+        
+firstline = int(vim.eval("a:firstline"))
+lastline  = int(vim.eval("a:lastline"))
+
+for lineNumber in range(firstline, lastline + 1):
+    line = vim.current.buffer[lineNumber - 1] # 0 vs 1 based
+    if isComment(line):
+        line = line.lstrip("#/ ")
+    else:
+        line = "# " + line
+    vim.current.buffer[lineNumber - 1 ] = line
+PYEND
+endfunction
