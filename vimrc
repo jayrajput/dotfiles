@@ -157,13 +157,14 @@ function! MyVerbose()
 endfunction
 
 function! MyCopy()
-    set nu!
-    set wrap!
+    set nonu
+    set wrap
+    set nolist
 endfunction
 
 " See http://vim.wikia.com/wiki/Write_your_own_Vim_function
 function! Cd()
-    exe "!cdargs"
+    exe "!marks"
     let mydir = system("cat /home/raleigh/jrajpu10/.cdargsresult")
     " See http://stackoverflow.com/questions/4596932/vim-cd-to-path-stored-in-variable
     "cd `=mydir`
@@ -171,6 +172,22 @@ function! Cd()
 endfunction
 " Alias to my function so you do not need to type call everytime.
 " command Cd call Cd()
+
+function! TmuxSendKeys()
+    let line=getline('.')
+    " tried silent but it did not helped to disable the prompt "Press ENTER or
+    " type command to continue", so ended up adding extra <cr> in the
+    " bindings in the nonoremap for TmuxSendKeys
+    exe "!tmux send-keys -t 1 '"line"' C-m"
+endfunction
+
+function! UndoCmdMode()
+    nunmap <cr>
+endfunction
+function! SetupCmdMode()
+    nnoremap <cr> :call TmuxSendKeys()<cr><cr><cr>
+endfunction
+
 
 " See http://vim.wikia.com/wiki/Managing_set_options
 nnoremap <F9>:call ToggleMouse()<CR>
