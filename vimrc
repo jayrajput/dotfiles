@@ -50,6 +50,9 @@ map  2k
 :highlight DiffChange ctermfg=black ctermbg=gray
 :highlight DiffText   ctermfg=black ctermbg=Yellow
 
+" automatically change directory
+" See http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
+set autochdir
 
 function! SyncVob2Target()
 python << PYEND

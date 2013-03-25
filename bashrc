@@ -25,6 +25,12 @@ function mygitstatus()
     for i in $(ls); do cd $i; git status; cd -; done
 }
 
+function mydate()
+{
+    date +%Y%m%d
+    # vim `date +%Y%m%d`
+}
+
 # Putty Window Title Functions
 # In all of these, ^[ is really the "escape" character. You put it into
 # a file using vi, by typing control-V and then hitting the Escape key.
@@ -46,6 +52,13 @@ cls ()
 {
     # works only for vt100's and the like
     echo "[;H[2J"
+}
+
+function convertFileSize()
+{
+    # See http://askubuntu.com/questions/1164/how-to-easily-resize-images
+    convert  -resize 50% source.png dest.jpg
+    convert  -resize 1024X768  source.png dest.jpg
 }
 
 # show the last dir in the pwd inside square brackets followed by dollar sign.

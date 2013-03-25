@@ -13,6 +13,7 @@ mygitPss=$mygit/pySearchSelect
 # link for files in config
 storeTargetLink "$mygitConfig/bashrc"    "$HOME/.bashrc"
 storeTargetLink "$mygitConfig/vimrc"     "$HOME/.vimrc"
+storeTargetLink "$mygitConfig/emacs"     "$HOME/.emacs"
 storeTargetLink "$mygitConfig/screenrc"  "$HOME/.screenrc"
 storeTargetLink "$mygitConfig/tmux.conf" "$HOME/.tmux.conf"
 storeTargetLink "$mygitConfig/vpnc.conf" "$HOME/.vpnc.conf"
