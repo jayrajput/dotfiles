@@ -17,6 +17,7 @@ storeTargetLink "$mygitConfig/emacs"     "$HOME/.emacs"
 storeTargetLink "$mygitConfig/screenrc"  "$HOME/.screenrc"
 storeTargetLink "$mygitConfig/tmux.conf" "$HOME/.tmux.conf"
 storeTargetLink "$mygitConfig/vpnc.conf" "$HOME/.vpnc.conf"
+storeTargetLink "$mygitConfig/gitconfig" "$HOME/.gitconfig"
 # link for files in pss
 storeTargetLink "$mygitPss/examples/views.sh" "$HOME/.bash/views.sh"
 storeTargetLink "$mygitPss/examples/marks"    "$HOME/bin/marks"
