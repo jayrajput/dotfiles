@@ -1,3 +1,7 @@
+" See https://github.com/tpope/vim-pathogen
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
 " See http://learnvimscriptthehardway.stevelosh.com
 let mapleader      = "\\"
 let maplocalleader = "_"
@@ -53,6 +57,20 @@ map  2k
 " automatically change directory
 " See http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
 set autochdir
+
+
+" """"""""""""""""""""""
+" Lisp/Scheme stuff
+" """"""""""""""""""""""
+" See http://www.ccs.neu.edu/home/dorai/scmindent/index.html
+autocmd filetype lisp,scheme,art setlocal equalprg=scmindent.rkt
+" See http://s3.amazonaws.com/mps/slime.vim
+function! SendToTmux()
+    echo system("tmux send-keys -t 1 '!!'")
+endfunction
+function! TmuxSendSetup()
+    au BufWritePost * :silent call SendToTmux()
+endfunction
 
 function! SyncVob2Target()
 python << PYEND
@@ -204,6 +222,7 @@ function! ToggleMouse()
     echo "Mouse usage enabled"
   endif
 endfunction
+
 
 " Functions using PYTHON 
 

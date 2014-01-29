@@ -12,6 +12,7 @@ function addToPath ()
       PATH="$PATH:$add_me"
    fi
 }
+
 function addToPythonpath()
 {
    add_me=$1
