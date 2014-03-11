@@ -23,6 +23,7 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 
 filetype on
 set ignorecase
+set smartcase
 set incsearch
 set nowrap
 set textwidth=0
@@ -59,11 +60,16 @@ map  2k
 set autochdir
 
 
+" Drew Neil's suggestion in his book
+set wildmenu
+set wildmode=full
+
+
 " """"""""""""""""""""""
 " Lisp/Scheme stuff
 " """"""""""""""""""""""
 " See http://www.ccs.neu.edu/home/dorai/scmindent/index.html
-autocmd filetype lisp,scheme,art setlocal equalprg=scmindent.rkt
+" autocmd filetype lisp,scheme,art setlocal equalprg=scmindent.rkt
 " See http://s3.amazonaws.com/mps/slime.vim
 function! SendToTmux()
     echo system("tmux send-keys -t 1 '!!'")

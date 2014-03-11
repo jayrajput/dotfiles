@@ -19,10 +19,14 @@ storeTargetLink "$mygitConfig/tmux.conf" "$HOME/.tmux.conf"
 storeTargetLink "$mygitConfig/vpnc.conf" "$HOME/.vpnc.conf"
 storeTargetLink "$mygitConfig/gitconfig" "$HOME/.gitconfig"
 storeTargetLink "$mygitConfig/ubuntu.sh" "$HOME/.bash/ubuntu.sh"
+storeTargetLink "$mygitConfig/bash-alias.sh" "$HOME/.bash/bash-alias.sh"
+storeTargetLink "$mygitConfig/gnucash-config.user"  "$HOME/.gnucash/config.user"
+storeTargetLink "$mygitConfig/gnucash-my-report.scm"  "$HOME/.gnucash/my-report.scm"
 # link for files in pss
 storeTargetLink "$mygitPss/examples/views.sh" "$HOME/.bash/views.sh"
 storeTargetLink "$mygitPss/examples/marks"    "$HOME/bin/marks"
 storeTargetLink "$mygitPss/pss.py"            "$HOME/bin/pss.py"
+
 
 for target in ${!targetLink[*]}; do
     link=${targetLink[$target]}
