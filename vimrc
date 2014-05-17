@@ -72,52 +72,11 @@ set wildmode=full
 " autocmd filetype lisp,scheme,art setlocal equalprg=scmindent.rkt
 " See http://s3.amazonaws.com/mps/slime.vim
 function! SendToTmux()
-    echo system("tmux send-keys -t 1 '!!'")
+    echo system("tmux send-keys -t 1 '!!
+'")
 endfunction
 function! TmuxSendSetup()
     au BufWritePost * :silent call SendToTmux()
-endfunction
-
-function! SyncVob2Target()
-python << PYEND
-vob2target={
-    "/home/jay/dump" : "/var/TKLC/appworks/dump",
-    "/vobs/software/awpss7/diameter/TKLCdpi/gui/modules/diameter/" : "/var/TKLC/appworks/modules/diameter",
-    "/vobs/software/awpss7/diameter/TKLCdpi/gui/lib"               : "/var/TKLC/appworks/library/Diameter",
-    "/vobs/software/awpss7/diameter/TKLCdpi/gui/javascript"        : "/var/TKLC/appworks/public/js",
-}
-
-vobFile      = vim.eval('expand ("%:p")')
-targetServer = vim.eval("g:targetServer")
-
-if targetServer is "":
-    vim.command("echo 'Target server not set'")
-else:
-    targetFile = None
-    for key in vob2target.keys():
-        if vobFile.find(key) != -1:
-            targetFile = vobFile.replace(key, vob2target[key])
-
-    cmd = "rsync " + vobFile + " root@" + targetServer + ":" + targetFile
-    vim.command("echo '" + cmd + "'")
-PYEND
-    "os.system(cmd)
-endfunction
-
-"let g:targetServer=""
-"function! SyncVob2Target()
-"    let targetFile = system("/home/jay/dump/vob2target " . expand("%:p"))
-"    let l:cmd = "rsync " . expand("%:p") . " root@" . g:targetServer . ":" . targetFile
-"    " We need a way to execute a Vim command that refers to a variable instead
-"    " of a literal string such as rsync. Vim gives us the execute command
-"    " for this purpose. 
-"    execute "silent! !" . cmd
-"endfunction
-function! SetupSync()
-    call inputsave()
-    let g:targetServer = input('Enter target server: ')
-    call inputrestore()
-    au BufWritePost *.php,*.phtml,*.js :call SyncVob2Target()
 endfunction
 
 
