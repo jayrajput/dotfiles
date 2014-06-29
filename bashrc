@@ -66,7 +66,7 @@ function convertFileSize()
 # \W = last dir in the pwd.
 export PS1="[\W]\$"
 
-set dunique      # Remove duplicate entries in directory stack
+# set dunique      # Remove duplicate entries in directory stack
 
 # set fignore=(\~) # files ending in ~ will be ignored by completion
 # Automatically correct spelling mistake in the cd command.

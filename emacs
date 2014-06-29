@@ -8,6 +8,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/plugins")
 (add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/w3m")
 (require 'paredit)
 
 ; http://www.emacswiki.org/emacs/ParEdit
@@ -91,3 +92,169 @@
 ;; ability to revert split pane config. Call winner-undo C-c + left-arrow winner-redo C-c + right-arrow
 ;; http://ergoemacs.org/emacs/emacs_winner_mode.html
 (winner-mode 1) ; in GNU emacs 23.2
+
+;; http://www.emacswiki.org/emacs/emacs-w3m#toc15
+(require 'w3m-e21)
+(provide 'w3m-e23)
+;; http://emacs-w3m.namazu.org/
+(require 'w3m-load)
+;; (require 'mime-w3m)
+
+
+;; http://www.juanrubio.me/2011/11/emacs-smex-m-x-do-not-like-typing/
+;; Does not work with my Emacs 23.4.1
+;; Smex
+;;(require 'smex)
+;;(smex-initialize)
+;;(global-set-key (kbd "M-x") 'smex)
+;;(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;;;; This is your old M-x.
+;;(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
+
+(defun w3m-open-current-page-in-firefox ()
+  "Open the current URL in Mozilla Firefox."
+  (interactive)
+  (browse-url-firefox w3m-current-url))
+
+(defun w3m-open-link-or-image-in-firefox ()
+  "Open the current link or image in Firefox."
+  (interactive)
+  (browse-url-firefox (or (w3m-anchor) 
+                          (w3m-image))))
+
+
+;; save windows to a register.
+;; C-x r w
+;; C-x r j
+;;C-x r w  stores the current configuration in a register
+;;C-x r j  restores the configuration from a register
+
+;; http://stackoverflow.com/questions/4477376/some-emacs-desktop-save-questions-how-to-change-it-to-save-in-emacs-d-emacs
+(require 'desktop)
+(setq desktop-dirname             "~/.emacs.d/desktop/"                                                                                            
+      desktop-base-file-name      "emacs.desktop"                                                                                                  
+      desktop-base-lock-name      "lock"                                                                                                           
+      desktop-path                (list desktop-dirname)                                                                                           
+      desktop-save                t                                                                                                                
+      desktop-files-not-to-save   "^$" ;reload tramp paths                                                                                         
+      desktop-load-locked-desktop nil)                                                                                                             
+(desktop-save-mode 0)                                                                                                                              
+ (defun my-desktop ()                                                                                                                               
+   "Load the desktop and enable autosaving"                                                                                                         
+   (interactive)                                                                                                                                    
+   (let ((desktop-load-locked-desktop "ask"))                                                                                                       
+     (desktop-read)                                                                                                                                 
+     (desktop-save-mode 1)))
+
+;; http://stackoverflow.com/questions/803812/emacs-reopen-buffers-from-last-session-on-startup
+;; (let ((profile                                                                                                                                          
+;;        (read-from-minibuffer "Choose a profile (acad,dist,lisp,comp,rpg,sqlg,ssqlfs,tl,tc,fpu): ")                                                      
+;;        ))                                                                                                                                               
+;;   (cond                                                                                                                                                 
+;;    ((string-match "acad" profile)                                                                                                                       
+;;     (dired "/home/thomp/academic")                                                                                                                      
+;;     (dired "/home/thomp/academic/papers")                                                                                                               
+;;     )                                                                                                                                                   
+;;    ((string-match "lisp" profile)                                                                                                                       
+;;     (setup-slime)                                                                                                                                       
+;;     (lisp-miscellany)                                                                                                                                   
+;;     (open-lisp-dirs)                                                                                                                                    
+;;     )                                                                                                                                                   
+;;    ((string-match "rpg" profile)                                                                                                                        
+;;     (find-file "/home/thomp/computing/lisp/rp-geneval/rp-geneval/rp-geneval.lisp")                                                                      
+;;     (dired "/home/thomp/computing/lisp/rp-geneval/rp-geneval")                                                                                          
+;;     (dired "/home/thomp/academic/)))
+
+
+(defun my-profile ()
+       "Loads my sicp profile"
+       (interactive)
+       (w3m)
+       (find-file "/home/jay/git/mine/config/emacs")
+       (find-file "/home/jay/work/scheme/test.ss")
+       (find-file "/home/jay/cm/books/scheme/sicp.pdf")
+)
+
+;;(defun swap-words (left right)
+;;  " Swap (left right) with (right left)"
+;;  (interactive "*sFirst Swap Word: \nsSecond Swap Word: ")
+;;  (let ((left (regexp-quote left))
+;;	(right (regexp-quote right)))
+;;    (query-replace-regex
+;;     (format "%s\\|%s" left right)
+;;     (format "\,if (equal %s \&) %s %s" right left right))))
+
+;; http://stackoverflow.com/questions/768243/interactive-emacs-lisp-function-to-swap-two-words-with-each-other
+(defun swap-words (a b)
+  "Replace all occurances of a with b and vice versa"
+  (interactive "*sFirst Swap Word: \nsSecond Swap Word: ")
+  (save-excursion
+    (while (re-search-forward (concat (regexp-quote a) "\\|" (regexp-quote b)))
+      (if (y-or-n-p "Swap?") 
+      (if (equal (match-string 0) a)
+          (replace-match (regexp-quote b))
+        (replace-match (regexp-quote a))))
+      )))
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(doc-view-continuous t))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
+
+(require 'calc)
+
+
+
+
+(require 'package)
+(add-to-list 'package-archives
+  '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; You don't need this one if you prefer marmalade and released versions:
+;; (add-to-list 'package-archives
+;;  '("melpa" . "http://melpa.milkbox.net/packages/"))
+(package-initialize)
+
+
+   (defun join-region (beg end)
+     "Apply join-line over region."
+     (interactive "r")
+     (if mark-active
+	     (let ((beg (region-beginning))
+			   (end (copy-marker (region-end))))
+		   (goto-char beg)
+				   (while (< (point) end)
+		     (join-line 1)))))
+
+
+(set-default 'truncate-lines t)
+
+
+; http://www.emacswiki.org/emacs/DeletingWhitespace
+
+    (defun whack-whitespace (arg)
+      "Delete all white space from point to the next word.  With prefix ARG
+    delete across newlines as well.  The only danger in this is that you
+    don't have to actually be at the end of a word to make it work.  It
+    skips over to the next whitespace and then whacks it all to the next
+    word."
+      (interactive "P")
+      (let ((regexp (if arg "[ \t\n]+" "[ \t]+")))
+        (re-search-forward regexp nil t)
+        (replace-match "" nil nil)))
+
+
+; Repetition: http://stackoverflow.com/questions/275842/is-there-a-repeat-last-command-in-emacs
+; M-x command-history followed by x to executed a command.
+; Using repeat.el C-x z. Repetition can be repeated by using z key.
+
+(require 'repeat)
+
+(set-variable (quote scheme-program-name) "mzscheme")

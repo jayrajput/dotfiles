@@ -46,8 +46,6 @@ set cinoptions=(1s,m1
 set nu
 map <F12> :cn
 map <F11> :cp
-map  2j
-map  2k
 
 " Minimal changes from the defaults; including fg colors in case of syntax highlighting:
 :highlight DiffAdd    ctermfg=black ctermbg=green
