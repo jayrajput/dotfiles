@@ -66,8 +66,6 @@ function convertFileSize()
 # \W = last dir in the pwd.
 export PS1="[\W]\$"
 
-# set dunique      # Remove duplicate entries in directory stack
-
 # set fignore=(\~) # files ending in ~ will be ignored by completion
 # Automatically correct spelling mistake in the cd command.
 # see http://linux.101hacks.com/cd-command/shopt-s-cdspell/
@@ -82,3 +80,10 @@ if [ -e $bashDir ]; then
 fi
 
 export pySearchSelect=~/bin/pySearchSelect.py
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
