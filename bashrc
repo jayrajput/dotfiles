@@ -13,6 +13,15 @@ function addToPath ()
    fi
 }
 
+function addToPathFront () 
+{
+   add_me=$1
+   # in bash v3, we could say this -> if [[ ! ":$PATH:" =~ ":$d:" ]] ; then
+   if [ $(echo ":$PATH:" | grep -c ":$add_me:") -eq 0 ] ; then
+      PATH="$add_me:$PATH"
+   fi
+}
+
 function addToPythonpath()
 {
    add_me=$1
@@ -86,4 +95,9 @@ export pySearchSelect=~/bin/pySearchSelect.py
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
+fi
+
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+    eval `ssh-agent -s`
+    ssh-add ~/.ssh/id_rsa
 fi
