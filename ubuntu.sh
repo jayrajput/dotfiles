@@ -8,3 +8,10 @@ function dropboxd()
 {
     $HOME/.dropbox-dist/dropboxd start &
 }
+
+function pathpretty()
+{
+    echo $PATH | tr ":" "\n"
+}
+
+alias ll='ls -l'
