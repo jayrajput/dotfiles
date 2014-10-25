@@ -32,6 +32,7 @@ for target in links.keys():
             logging.error("Target does not exist %s" % (target))
             continue;
 
+        # os.unlink(link)
         if os.path.islink(link):
             logging.warn("WARN: Link already exist %s" % (link))
             continue;

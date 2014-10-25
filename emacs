@@ -1,62 +1,106 @@
+(setq org-directory "~/Org")
+(setq org-default-notes-file (concat org-directory "/todo.org"))
+(define-key global-map "\C-cc" 'org-capture)
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline (concat org-directory "/todo.org") "Tasks")
+             "** TODO %?\n")
+        ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
+             "** TODO %?\n")))
+
 (require 'org-install)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
-(setq org-agenda-files (list "~/Dropbox/personal/org/home.org"
-			     "~/Dropbox/personal/org/work.org"))
+(setq org-agenda-files '("~/Org/todo.org"))
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+
+; Toggle the grid lines shown for the timestamps.
+(setq org-agenda-use-time-grid nil)
+(setq org-agenda-include-all-todo nil)
+(setq org-agenda-skip-scheduled-if-done t)
+(setq org-agenda-time-grid nil)
+(setq org-agenda-todo-ignore-scheduled t)
+(setq org-agenda-skip-deadline-if-done t)
+(setq org-agenda-show-all-dates t)
+(setq org-reverse-note-order t)
+
+; http://gregorygrubbs.com/emacs/10-tips-emacs-windows/
+(setq shell-file-name "bash")
+(setq explicit-shell-file-name shell-file-name)
+
+(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/bin/emacs-24.3-bin-i386/emacs-24.3/share/emacs/site-lisp/w3m")
+(require 'w3m-load)
+(require 'powershell)
+
+;;(require 'mime-w3m)
+
+(winner-mode t)
+(require 'ido)
+(ido-mode t)
+
+(require 'synonyms)
+
+;; move the backups to a separate directory
+(setq backup-directory-alist `(("." . "~/.emacs.d/saves")))
+
+
+; (require 'org-install)
+; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+; (define-key global-map "\C-cl" 'org-store-link)
+; (define-key global-map "\C-ca" 'org-agenda)
+; (setq org-log-done t)
+; (setq org-agenda-files (list "~/Dropbox/personal/org/home.org"
+			     ; "~/Dropbox/personal/org/work.org"))
 
 (add-to-list 'load-path "~/.emacs.d/plugins")
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/w3m")
-(require 'paredit)
+; (require 'paredit)
 
 ; http://www.emacswiki.org/emacs/ParEdit
-    (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-    (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-    (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-    (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-    (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-    (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-    (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-(put 'erase-buffer 'disabled nil)
+; (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+; (add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+; (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+; (add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+; (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+; (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+; (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+; (put 'erase-buffer 'disabled nil)
 
 ; www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/
-(setq make-backup-files nil)
-(ido-mode 1)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(setq ido-use-filename-at-point 'guess)
-
-(fset 'yes-or-no-p 'y-or-n-p)
-(setq confirm-nonexistent-file-or-buffer nil)
-(setq inhibit-startup-message t
-      inhibit-startup-echo-area-message t)
-
-(setq kill-buffer-query-functions
-  (remq 'process-kill-buffer-query-function
-         kill-buffer-query-functions))
-(setq ido-create-new-buffer 'always)
-
-(define-key global-map (kbd "RET") 'newline-and-indent)
-
-; http://stackoverflow.com/questions/14370438/how-can-i-prevent-the-cursor-from-jumping-when-i-close-parentheses-in-emacs
-(show-paren-mode 1)
-(setq blink-matching-delay 0.3)
-
+; (setq make-backup-files nil)
+; (ido-mode 1)
+; (setq ido-enable-flex-matching t)
+; (setq ido-everywhere t)
+; (setq ido-use-filename-at-point 'guess)
+; 
+; (fset 'yes-or-no-p 'y-or-n-p)
+; (setq confirm-nonexistent-file-or-buffer nil)
+; (setq inhibit-startup-message t
+      ; inhibit-startup-echo-area-message t)
+; 
+; (setq kill-buffer-query-functions
+  ; (remq 'process-kill-buffer-query-function
+         ; kill-buffer-query-functions))
+; (setq ido-create-new-buffer 'always)
+; 
+; (define-key global-map (kbd "RET") 'newline-and-indent)
+; 
+; ; http://stackoverflow.com/questions/14370438/how-can-i-prevent-the-cursor-from-jumping-when-i-close-parentheses-in-emacs
+; (show-paren-mode 1)
+; (setq blink-matching-delay 0.3)
+; 
 ; elisp to openwith different file extensions
-(require 'openwith)
-(setq openwith-associations
-      '(
-	("\\.gnucash\\'" "gnucash" (file))
-	("\\.chm\\'" "xchm" (file))
-	))
-(openwith-mode t)
+; (require 'openwith)
+; (setq openwith-associations
+      ; '(
+	; ("\\.gnucash\\'" "gnucash" (file))
+	; ("\\.chm\\'" "xchm" (file))
+	; ))
+; (openwith-mode t)
 
 
 ; adding aricent holidays
-
-
 (setq holiday-local-holidays '(
 			       (holiday-fixed 1  1  "New Year Day")
 			       (holiday-fixed 3  17 "Holi")
