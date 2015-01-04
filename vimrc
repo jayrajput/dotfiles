@@ -1,5 +1,5 @@
 " See https://github.com/tpope/vim-pathogen
-execute pathogen#infect()
+" execute pathogen#infect()
 syntax on
 filetype plugin indent on
 " See http://learnvimscriptthehardway.stevelosh.com
@@ -22,7 +22,6 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
 filetype on
-set ignorecase
 set smartcase
 set incsearch
 set nowrap
@@ -61,6 +60,10 @@ set autochdir
 " Drew Neil's suggestion in his book
 set wildmenu
 set wildmode=full
+
+" Map C-l to remove noh
+" See http://stackoverflow.com/questions/3691247/mapping-nearch-to-escape-key
+nnoremap <silent> <C-l> :n><C-l>
 
 
 " """"""""""""""""""""""

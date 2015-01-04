@@ -34,7 +34,7 @@ for target in links.keys():
 
         # os.unlink(link)
         if os.path.islink(link):
-            logging.warn("WARN: Link already exist %s" % (link))
+            logging.warn("LinkAlreadyExist: %s" % (link))
             continue;
 
         # we already checked for symlink, so this is a real file, back it up
