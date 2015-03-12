@@ -1,12 +1,8 @@
 " See https://github.com/tpope/vim-pathogen
-" execute pathogen#infect()
+execute pathogen#infect()
 syntax on
 filetype plugin indent on
-" See http://learnvimscriptthehardway.stevelosh.com
-let mapleader      = "\\"
-let maplocalleader = "_"
-inoremap jk <esc>
-inoremap hl <esc>
+
 " <nop> is no operation
 inoremap <Down>  <nop> 
 inoremap <Up>    <nop> 
@@ -16,12 +12,7 @@ nnoremap <Down>  <nop>
 nnoremap <Up>    <nop> 
 nnoremap <Left>  <nop> 
 nnoremap <Right> <nop> 
-" mapping for editing and sourcing vimrc
-" ev = edit vimrc and sv = source vimrc
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
 
-filetype on
 set smartcase
 set incsearch
 set nowrap
@@ -30,19 +21,15 @@ set tabstop=4
 set shiftwidth=4
 set winminheight=0
 set expandtab
-set background=dark
-set laststatus=2
 set scroll=3    " for Control-d and Control-u
 set scrolloff=3 " for Control-d and Control-u
-set ruler       " to see the column numbers
 " cindent overrides smartindent and autoindent.
 " I am using cindent also in PHP.
 set cindent
-" (1s indent one sw from the line with unclosed parentheses.
+" (1s indent one sw from the line with opening parentheses.
 " m1  line up a line with a closing parentheses with first character of the
 "     line with matching opening parentheses.
-set cinoptions=(1s,m1
-set nu
+set cinoptions=(1s
 map <F12> :cn
 map <F11> :cp
 
@@ -56,21 +43,9 @@ map <F11> :cp
 " See http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
 set autochdir
 
-
 " Drew Neil's suggestion in his book
-set wildmenu
 set wildmode=full
 
-" Map C-l to remove noh
-" See http://stackoverflow.com/questions/3691247/mapping-nearch-to-escape-key
-nnoremap <silent> <C-l> :n><C-l>
-
-
-" """"""""""""""""""""""
-" Lisp/Scheme stuff
-" """"""""""""""""""""""
-" See http://www.ccs.neu.edu/home/dorai/scmindent/index.html
-" autocmd filetype lisp,scheme,art setlocal equalprg=scmindent.rkt
 " See http://s3.amazonaws.com/mps/slime.vim
 function! SendToTmux()
     echo system("tmux send-keys -t 1 '!!'")
@@ -131,17 +106,6 @@ command! -nargs=? Underline call s:Underline(<q-args>)
 " http://vim.sourceforge.net/scripts/script.php?script_id=294
 set nocompatible
 
-" setting for mouse to work
-" use r to allow copy/paste.
-" to copy text out of vim use SHIFT with mouse.
-" See: http://stackoverflow.com/questions/4608161/copy-text-out-of-vim-with-set-mouse-a-enabled
-set ttymouse=xterm2
-set mouse=n
-
-" http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
-nnoremap ,cd :lcd %:p:h<CR>:pwd<CR>
-
-
 " CommandT related setting.
 nnoremap <leader>t :CommandT<CR>
 nnoremap <leader>b :CommandTBuffer<CR>
@@ -153,10 +117,6 @@ let g:CommandTCancelMap='<C-x>'
 " setting backspace also make C-w and Control-u works for deleting words.
 set backspace=indent,eol,start
 set backspace=2
-
-" For Yank-ring
-let g:yankring_replace_n_pkey = '<m-p>'
-let g:yankring_replace_n_nkey = '<m-n>'
 
 " for tab highlighting.
 hi TabLineFill ctermfg=LightGray ctermbg=Black
