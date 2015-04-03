@@ -29,8 +29,8 @@
 
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/bin/emacs-24.3-bin-i386/emacs-24.3/share/emacs/site-lisp/w3m")
-(require 'w3m-load)
-(require 'powershell)
+;(require 'w3m-load)
+;(require 'powershell)
 
 ;;(require 'mime-w3m)
 
@@ -38,7 +38,7 @@
 (require 'ido)
 (ido-mode t)
 
-(require 'synonyms)
+;(require 'synonyms)
 
 ;; move the backups to a separate directory
 (setq backup-directory-alist `(("." . "~/.emacs.d/saves")))
@@ -138,10 +138,10 @@
 (winner-mode 1) ; in GNU emacs 23.2
 
 ;; http://www.emacswiki.org/emacs/emacs-w3m#toc15
-(require 'w3m-e21)
-(provide 'w3m-e23)
+;(require 'w3m-e21)
+;(provide 'w3m-e23)
 ;; http://emacs-w3m.namazu.org/
-(require 'w3m-load)
+;(require 'w3m-load)
 ;; (require 'mime-w3m)
 
 
@@ -258,13 +258,13 @@
 
 
 
-(require 'package)
-(add-to-list 'package-archives
-  '("marmalade" . "http://marmalade-repo.org/packages/"))
+;(require 'package)
+;(add-to-list 'package-archives
+;  '("marmalade" . "http://marmalade-repo.org/packages/"))
 ;; You don't need this one if you prefer marmalade and released versions:
 ;; (add-to-list 'package-archives
 ;;  '("melpa" . "http://melpa.milkbox.net/packages/"))
-(package-initialize)
+;; (package-initialize)
 
 
    (defun join-region (beg end)
@@ -302,3 +302,10 @@
 (require 'repeat)
 
 (set-variable (quote scheme-program-name) "mzscheme")
+(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
