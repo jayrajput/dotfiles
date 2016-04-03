@@ -1,0 +1,6 @@
+alias mkdir='mkdir -pv'
+alias ll='ls -l'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias ff='find -iname'

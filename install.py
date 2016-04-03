@@ -6,14 +6,14 @@ import logging
 gitRepo = os.path.dirname(os.path.realpath(__file__))
 home    = os.path.expanduser("~")
 links = {
-    gitRepo + "/bashrc"                : home + "/.bashrc"                , 
+    gitRepo + "/bash/bashrc"           : home + "/.bashrc"                , 
     gitRepo + "/vimrc"                 : home + "/.vimrc"                 , 
     gitRepo + "/emacs"                 : home + "/.emacs"                 , 
     gitRepo + "/screenrc"              : home + "/.screenrc"              , 
     gitRepo + "/tmux.conf"             : home + "/.tmux.conf"             , 
     gitRepo + "/gitconfig"             : home + "/.gitconfig"             , 
-    gitRepo + "/ubuntu.sh"             : home + "/.bash/ubuntu.sh"        , 
-    gitRepo + "/bash-alias.sh"         : home + "/.bash/bash-alias.sh"    , 
+    gitRepo + "/bash/ubuntu.sh"        : home + "/.bash/ubuntu.sh"        , 
+    gitRepo + "/bash/bash-alias.sh"    : home + "/.bash/bash-alias.sh"    , 
     gitRepo + "/gnucash-config.user"   : home + "/.gnucash/config.user"   , 
     gitRepo + "/gnucash-my-report.scm" : home + "/.gnucash/my-report.scm" , 
 }
