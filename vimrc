@@ -271,3 +271,5 @@ for lineNumber in range(firstline, lastline + 1):
     vim.current.buffer[lineNumber - 1 ] = line
 PYEND
 endfunction
+
+highlight Visual term=reverse cterm=reverse guibg=Grey
