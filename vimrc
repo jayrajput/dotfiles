@@ -273,3 +273,6 @@ PYEND
 endfunction
 
 highlight Visual term=reverse cterm=reverse guibg=Grey
+set bg=dark
+
+nnoremap <expr> g<c-v> '`[' . getregtype()[0]  . '`]'
